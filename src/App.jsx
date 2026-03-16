@@ -102,7 +102,7 @@ function SourceCard({ source, compact }) {
         <span style={{ background: `${TYPE_COLORS[source.type]}22`, color: TYPE_COLORS[source.type], border: `1px solid ${TYPE_COLORS[source.type]}55`, borderRadius: 2, padding: "1px 6px", fontSize: 9, fontFamily: "monospace", letterSpacing: 1, marginLeft: "auto" }}>{source.type.toUpperCase()}</span>
       </div>
       <div style={{ color: "#888", fontFamily: "monospace", fontSize: 10, marginBottom: compact ? 0 : 4 }}>{source.handle} · {source.platform}</div>
-      {!compact && <div style={{ color: "#aaa", fontFamily: "'Courier New', monospace", fontSize: 11, lineHeight: 1.5 }}>{source.desc}</div>}
+      {!compact && <div style={{ color: "#bbc8a8", fontFamily: "'Courier New', monospace", fontSize: 12, lineHeight: 1.65 }}>{source.desc}</div>}
       {!compact && (
         <div style={{ display: "flex", gap: 4, marginTop: 6, flexWrap: "wrap" }}>
           {source.theater.map(t => (
@@ -407,8 +407,8 @@ OUTPUT FORMAT (valid JSON only, no markdown fences):
             <div style={{ display: "flex", gap: 6, marginBottom: 12, flexWrap: "wrap" }}>
               {["What happened in the last hour?", "Latest confirmed strikes on Iran?", "Current airspace status Middle East?", "Best sources for Hezbollah tunnels?", "How do I verify a Telegram strike claim?", "Compare ISW vs Bellingcat for Gaza"].map(q => (
                 <button key={q} onClick={() => { setAiQuery(q); setTimeout(() => aiInputRef.current?.focus(), 50); }} style={{
-                  background: "#0d140d", border: "1px solid #1a3a1a", color: "#667766",
-                  padding: "5px 10px", cursor: "pointer", fontFamily: "monospace", fontSize: 10, borderRadius: 2,
+                  background: "#0d140d", border: "1px solid #1a3a1a", color: "#778877",
+                  padding: "6px 11px", cursor: "pointer", fontFamily: "monospace", fontSize: 11, borderRadius: 2,
                 }}
                   onMouseEnter={e => { e.target.style.color = "#88cc88"; e.target.style.borderColor = "#2a5a2a"; }}
                   onMouseLeave={e => { e.target.style.color = "#667766"; e.target.style.borderColor = "#1a3a1a"; }}
@@ -421,7 +421,7 @@ OUTPUT FORMAT (valid JSON only, no markdown fences):
                 onKeyDown={e => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); handleAiQuery(); } }}
                 placeholder="Enter intelligence query... (Enter to submit)"
                 rows={3}
-                style={{ flex: 1, background: "#0d140d", border: "1px solid #2a3a2a", color: "#c8d4b8", padding: "10px 14px", fontFamily: "monospace", fontSize: 12, lineHeight: 1.6, borderRadius: 2, resize: "vertical" }}
+                style={{ flex: 1, background: "#0d140d", border: "1px solid #2a3a2a", color: "#c8d4b8", padding: "12px 16px", fontFamily: "monospace", fontSize: 13, lineHeight: 1.7, borderRadius: 2, resize: "vertical" }}
               />
               <button onClick={handleAiQuery} disabled={aiLoading || !aiQuery.trim()} style={{
                 background: aiLoading ? "#0d1a0d" : "#0d2a0d", border: `1px solid ${aiLoading ? "#1a3a1a" : "#2a5a2a"}`,
@@ -447,7 +447,7 @@ OUTPUT FORMAT (valid JSON only, no markdown fences):
                   {liveMode && <span style={{ color: "#44ff88", fontSize: 9, border: "1px solid #1a4a1a", padding: "1px 6px", borderRadius: 2 }}>WITH LIVE DATA</span>}
                   <span style={{ color: "#334433", fontSize: 9, marginLeft: "auto" }}>{new Date().toUTCString().replace("GMT", "UTC")}</span>
                 </div>
-                <div style={{ color: "#c8d4b8", fontSize: 12, lineHeight: 1.8, whiteSpace: "pre-wrap" }}>{aiResponse}</div>
+                <div style={{ color: "#d4e0c4", fontSize: 14, lineHeight: 2.0, whiteSpace: "pre-wrap", letterSpacing: 0.1 }}>{aiResponse}</div>
               </div>
             )}
 
@@ -466,7 +466,7 @@ OUTPUT FORMAT (valid JSON only, no markdown fences):
           <div>
             <div style={{ marginBottom: 14, padding: "8px 14px", background: "#120a00", border: "1px solid #2a1a00", borderLeft: "3px solid #ffaa00", borderRadius: 2 }}>
               <div style={{ color: "#ffaa00", fontSize: 10, letterSpacing: 2, marginBottom: 4 }}>◈ QUOTE SANITIZER — PROPAGANDA ANALYSIS ENGINE</div>
-              <div style={{ color: "#886644", fontSize: 11, lineHeight: 1.6 }}>
+              <div style={{ color: "#998855", fontSize: 12, lineHeight: 1.7 }}>
                 Paste any official statement. The AI extracts the factual core · identifies propaganda elements · cross-references evidence · produces a corrected objective version.
               </div>
             </div>
@@ -496,7 +496,7 @@ OUTPUT FORMAT (valid JSON only, no markdown fences):
                 onKeyDown={e => { if (e.key === "Enter" && e.ctrlKey) handleSanitize(); }}
                 placeholder="Paste official quote or statement here... (Ctrl+Enter to analyze)"
                 rows={4}
-                style={{ flex: 1, background: "#0d0a00", border: "1px solid #2a1a00", color: "#c8b488", padding: "10px 14px", fontFamily: "monospace", fontSize: 12, lineHeight: 1.6, borderRadius: 2, resize: "vertical" }}
+                style={{ flex: 1, background: "#0d0a00", border: "1px solid #2a1a00", color: "#c8b488", padding: "12px 16px", fontFamily: "monospace", fontSize: 13, lineHeight: 1.7, borderRadius: 2, resize: "vertical" }}
               />
               <button onClick={handleSanitize} disabled={quoteLoading || !quoteInput.trim()} style={{
                 background: quoteLoading ? "#120a00" : "#1a0d00", border: `1px solid ${quoteLoading ? "#2a1a00" : "#4a2a00"}`,
@@ -526,11 +526,11 @@ OUTPUT FORMAT (valid JSON only, no markdown fences):
                     <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
                       <div style={{ background: "#0d0a00", border: "1px solid #2a1a0055", borderLeft: "3px solid #ff4444", padding: "12px 16px", borderRadius: 2 }}>
                         <div style={{ color: "#ff4444", fontSize: 9, letterSpacing: 2, marginBottom: 8 }}>ORIGINAL CORE CLAIM</div>
-                        <div style={{ color: "#c8a888", fontSize: 12, lineHeight: 1.7 }}>{quoteResult.original_core_claim}</div>
+                        <div style={{ color: "#d4b898", fontSize: 13, lineHeight: 1.8 }}>{quoteResult.original_core_claim}</div>
                       </div>
                       <div style={{ background: "#0a0d0a", border: "1px solid #1a3a1a", borderLeft: "3px solid #44ff88", padding: "12px 16px", borderRadius: 2 }}>
                         <div style={{ color: "#44ff88", fontSize: 9, letterSpacing: 2, marginBottom: 8 }}>✓ SANITIZED OBJECTIVE VERSION</div>
-                        <div style={{ color: "#c8d4b8", fontSize: 12, lineHeight: 1.7 }}>{quoteResult.sanitized_version}</div>
+                        <div style={{ color: "#d4e0c4", fontSize: 13, lineHeight: 1.8 }}>{quoteResult.sanitized_version}</div>
                       </div>
                     </div>
                     {quoteResult.propaganda_elements?.length > 0 && (
@@ -542,8 +542,8 @@ OUTPUT FORMAT (valid JSON only, no markdown fences):
                               {(el.type || "").replace(/_/g, " ").toUpperCase()}
                             </span>
                             <div>
-                              <div style={{ color: "#c8a888", fontSize: 11, fontStyle: "italic", marginBottom: 2 }}>"{el.element}"</div>
-                              <div style={{ color: "#886644", fontSize: 11, lineHeight: 1.5 }}>{el.explanation}</div>
+                              <div style={{ color: "#d4b888", fontSize: 12, fontStyle: "italic", marginBottom: 3 }}>"{el.element}"</div>
+                              <div style={{ color: "#998855", fontSize: 12, lineHeight: 1.65 }}>{el.explanation}</div>
                             </div>
                           </div>
                         ))}
@@ -556,14 +556,14 @@ OUTPUT FORMAT (valid JSON only, no markdown fences):
                           <div key={i} style={{ padding: "8px 0", borderBottom: "1px solid #1a0a0a" }}>
                             <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 4 }}>
                               <span style={{ color: "#ff6666", fontSize: 10 }}>CLAIMED:</span>
-                              <span style={{ color: "#c8a888", fontSize: 11 }}>{c.claim}</span>
+                              <span style={{ color: "#d4b898", fontSize: 12 }}>{c.claim}</span>
                               <span style={{ marginLeft: "auto", color: CONFIDENCE_COLOR[c.confidence] || "#888", fontSize: 9, border: `1px solid ${CONFIDENCE_COLOR[c.confidence] || "#888"}44`, padding: "1px 6px", borderRadius: 2 }}>
                                 {(c.confidence || "").toUpperCase()} CONFIDENCE
                               </span>
                             </div>
                             <div style={{ display: "flex", gap: 8 }}>
                               <span style={{ color: "#44ff88", fontSize: 10, minWidth: 60 }}>REALITY:</span>
-                              <span style={{ color: "#aab8aa", fontSize: 11, lineHeight: 1.5 }}>{c.reality}</span>
+                              <span style={{ color: "#b8c8b0", fontSize: 12, lineHeight: 1.65 }}>{c.reality}</span>
                             </div>
                           </div>
                         ))}
@@ -573,7 +573,7 @@ OUTPUT FORMAT (valid JSON only, no markdown fences):
                       <div style={{ background: "#0a0a0d", border: "1px solid #1a1a3a", borderRadius: 2, padding: "10px 14px" }}>
                         <div style={{ color: "#44aaff", fontSize: 9, letterSpacing: 2, marginBottom: 8 }}>◈ USE WITH CAUTION</div>
                         {quoteResult.use_with_caution.map((w, i) => (
-                          <div key={i} style={{ color: "#667788", fontSize: 11, lineHeight: 1.8 }}>⚠ {w}</div>
+                          <div key={i} style={{ color: "#7788aa", fontSize: 12, lineHeight: 1.8 }}>⚠ {w}</div>
                         ))}
                       </div>
                     )}
@@ -601,7 +601,7 @@ OUTPUT FORMAT (valid JSON only, no markdown fences):
               {VERIFY_CHECKLIST.map((item, i) => (
                 <div key={i} style={{ display: "flex", gap: 12, padding: "8px 0", borderBottom: "1px solid #0d1a0d" }}>
                   <span style={{ color: "#ffaa00", fontWeight: 700, minWidth: 20 }}>{String(i + 1).padStart(2, "0")}</span>
-                  <span style={{ color: "#aab8aa", fontSize: 12, lineHeight: 1.6 }}>{item}</span>
+                  <span style={{ color: "#b8c8aa", fontSize: 13, lineHeight: 1.7 }}>{item}</span>
                 </div>
               ))}
             </div>
@@ -644,8 +644,8 @@ OUTPUT FORMAT (valid JSON only, no markdown fences):
                   onMouseEnter={e => e.currentTarget.style.background = "#0d140d"}
                   onMouseLeave={e => e.currentTarget.style.background = "transparent"}
                 >
-                  <span style={{ color: "#44aaff", minWidth: 160, fontSize: 12 }}>{t.name}</span>
-                  <span style={{ color: "#667766", fontSize: 11 }}>{t.desc}</span>
+                  <span style={{ color: "#55bbff", minWidth: 160, fontSize: 13 }}>{t.name}</span>
+                  <span style={{ color: "#7a8870", fontSize: 12 }}>{t.desc}</span>
                 </a>
               ))}
             </div>
