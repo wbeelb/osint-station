@@ -26,6 +26,7 @@ const SOURCES = {
     { id: "toi", name: "Times of Israel", handle: "timesofisrael.com", platform: "Web", tier: 3, theater: ["Gaza", "Lebanon", "Iran"], type: "News", url: "https://www.timesofisrael.com", desc: "Israeli press — centrist, free to read, fast security coverage. Replaced Haaretz (extreme-left bias)." },
     { id: "jpost", name: "Jerusalem Post", handle: "jpost.com", platform: "Web", tier: 3, theater: ["Gaza", "Lebanon"], type: "News", url: "https://www.jpost.com", desc: "Israeli press — right-leaning, fast on domestic security and military news" },
     { id: "ocha", name: "UN OCHA", handle: "ochaopt.org", platform: "Web", tier: 3, theater: ["Gaza"], type: "Humanitarian", url: "https://www.ochaopt.org", desc: "Official UN humanitarian data, casualty figures, situation reports for Gaza — use for baseline numbers" },
+    { id: "aljazeera", name: "Al Jazeera", handle: "aljazeera.com", platform: "Web/X", tier: 3, theater: ["Gaza", "Lebanon", "Iran"], type: "News", url: "https://www.aljazeera.com/middle-east/", desc: "Qatari state-funded — strong pro-Palestinian and pro-Iran lean, amplifies Axis of Resistance narratives. Useful for tracking adversary messaging; apply heavy editorial filter before citing as factual source." },
     { id: "reuters", name: "Reuters Wire", handle: "reuters.com", platform: "Web", tier: 3, theater: ["Gaza", "Lebanon", "Iran"], type: "Wire", url: "https://www.reuters.com/world/middle-east/", desc: "Wire service — fastest confirmed events, highest reliability threshold of any news source" },
   ],
   geospatial: [
