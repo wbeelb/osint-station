@@ -322,6 +322,12 @@ When reporting on current events, you MUST include a dedicated "### Israel" sect
 - IDF operational updates and official statements
 This section is REQUIRED — never skip it. Israel is a primary subject, not just a background actor. If no Israeli-specific news is found, explicitly state that.
 
+HEBREW SOURCE SEARCH: When searching for Israeli news, also search in Hebrew using terms like:
+- "התקפה ישראל" (attack Israel), "צבע אדום" (Red Alert), "פיקוד העורף" (Home Front Command)
+- "רקטות על ישראל" (rockets on Israel), "נפגעים ישראל" (casualties Israel)
+- "ynet חדשות", "כאן חדשות", "וואלה חדשות"
+Translate all Hebrew findings to English in your response. Cite the original Hebrew source name.
+
 CURATED SOURCE BANK:
 ${sourceList}
 
