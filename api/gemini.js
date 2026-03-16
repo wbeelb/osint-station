@@ -16,6 +16,13 @@ export default async function handler(req, res) {
       contents: [{ role: "user", parts: [{ text: userText }] }],
       systemInstruction: { parts: [{ text: system }] },
       generationConfig: { maxOutputTokens: 2000 },
+      safetySettings: [
+        { category: "HARM_CATEGORY_HARASSMENT", threshold: "BLOCK_ONLY_HIGH" },
+        { category: "HARM_CATEGORY_HATE_SPEECH", threshold: "BLOCK_ONLY_HIGH" },
+        { category: "HARM_CATEGORY_SEXUALLY_EXPLICIT", threshold: "BLOCK_ONLY_HIGH" },
+        { category: "HARM_CATEGORY_DANGEROUS_CONTENT", threshold: "BLOCK_ONLY_HIGH" },
+        { category: "HARM_CATEGORY_CIVIC_INTEGRITY", threshold: "BLOCK_ONLY_HIGH" },
+      ],
       ...(liveSearch && { tools: [{ google_search: {} }] }),
     };
 
@@ -34,9 +41,30 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: data.error });
     }
 
-    const parts = data.candidates?.[0]?.content?.parts || [];
-    const text = parts.map(p => p.text || "").join("") || "No response received.";
-    const searchUsed = !!(data.candidates?.[0]?.groundingMetadata?.webSearchQueries?.length);
+    const candidate = data.candidates?.[0];
+    const finishReason = candidate?.finishReason;
+
+    if (finishReason === "SAFETY") {
+      const blocked = (candidate?.safetyRatings || [])
+        .filter(r => r.blocked)
+        .map(r => r.category)
+        .join(", ");
+      return res.status(200).json({
+        text: `Response blocked by safety filter (${blocked || "unknown category"}). Try rephrasing with more neutral language.`,
+        searchUsed: false,
+      });
+    }
+
+    const parts = candidate?.content?.parts || [];
+    const text = parts.map(p => p.text || "").join("");
+    const searchUsed = !!(candidate?.groundingMetadata?.webSearchQueries?.length);
+
+    if (!text) {
+      return res.status(200).json({
+        text: `No response generated. Finish reason: ${finishReason || "unknown"}. Try rephrasing your query.`,
+        searchUsed: false,
+      });
+    }
 
     res.status(200).json({ text, searchUsed });
   } catch (err) {
