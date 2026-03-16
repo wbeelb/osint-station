@@ -167,46 +167,42 @@ ${sourceList}
 
 ${liveMode
       ? `OPERATING MODE: LIVE FETCH ENABLED.
-You have the web_search tool. Rules:
-1. For ANY time-sensitive query (latest, last hour, now, current, today, recent strikes/attacks/news) — ALWAYS call web_search BEFORE answering.
+You have Google Search available. Rules:
+1. For ANY time-sensitive query (latest, last hour, now, current, today, recent strikes/attacks/news) — ALWAYS search BEFORE answering.
 2. Report ACTUAL FINDINGS first — what happened, when, where, which source, verified/unverified.
-3. Label clearly: [LIVE] for web_search results vs [KB] for knowledge base info.
+3. Label clearly: [LIVE] for search results vs [KB] for knowledge base info.
 4. If search returns nothing useful, say so and explain.
-5. For non-time-sensitive queries skip web_search.`
+5. For non-time-sensitive queries skip search.`
       : `OPERATING MODE: KNOWLEDGE BASE ONLY. No web_search. Explicitly state you cannot verify real-time events.`}
 
 Style: tactical brevity, structured headers, cite source IDs, flag unverified claims.`;
 
     try {
-      const tools = liveMode ? [{ type: "web_search_20250305", name: "web_search" }] : undefined;
       if (liveMode && isTimeSensitive) {
-        setFetchSteps(prev => [...prev, "Time-sensitive query — activating web_search...", "Fetching: IranWarLive · Reuters · ToI · ISW..."]);
+        setFetchSteps(prev => [...prev, "Time-sensitive query — activating Google Search...", "Fetching: IranWarLive · Reuters · ToI · ISW..."]);
       }
 
-      const res = await fetch("/api/claude", {
+      const res = await fetch("/api/gemini", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          model: "claude-sonnet-4-20250514",
-          max_tokens: 1500,
           system: systemPrompt,
-          ...(tools && { tools }),
-          messages: [{ role: "user", content: aiQuery }]
+          messages: [{ role: "user", content: aiQuery }],
+          max_tokens: 1500,
+          liveSearch: liveMode,
         })
       });
 
       const data = await res.json();
-      if (data.error) { setAiResponse(`API ERROR: ${data.error.message}`); return; }
+      if (data.error) { setAiResponse(`API ERROR: ${data.error.message || JSON.stringify(data.error)}`); return; }
 
-      const toolUses = data.content?.filter(c => c.type === "tool_use") || [];
-      if (toolUses.length > 0) {
-        setFetchSteps(prev => [...prev, `Web search executed (${toolUses.length} quer${toolUses.length > 1 ? "ies" : "y"})`, "Synthesizing live results..."]);
+      if (data.searchUsed) {
+        setFetchSteps(prev => [...prev, "Google Search executed", "Synthesizing live results..."]);
       } else {
         setFetchSteps(prev => [...prev, "Processing response..."]);
       }
 
-      const text = data.content?.filter(c => c.type === "text").map(c => c.text).join("\n") || "No response received.";
-      setAiResponse(text);
+      setAiResponse(data.text || "No response received.");
     } catch (err) {
       setAiResponse(`ERROR: ${err.message}`);
     } finally {
@@ -226,7 +222,7 @@ Current date: ${new Date().toUTCString()}
 METHODOLOGY:
 1. EXTRACT the factual core — stripped of emotional language and rhetoric
 2. IDENTIFY propaganda elements: emotional language, false claims, misleading framing, omissions
-3. CROSS-REFERENCE against verifiable facts using web_search
+3. CROSS-REFERENCE against verifiable facts using Google Search
 4. FLAG each contradiction with specific evidence
 5. PRODUCE a sanitized objective version
 
@@ -246,25 +242,23 @@ OUTPUT FORMAT (valid JSON only, no markdown fences):
 }`;
 
     try {
-      const tools = [{ type: "web_search_20250305", name: "web_search" }];
-      const userMsg = `ACTOR: ${quoteActor || "Unknown"}\n\nQUOTE TO SANITIZE:\n"${quoteInput}"\n\nUse web_search to verify factual claims before completing analysis.`;
+      const userMsg = `ACTOR: ${quoteActor || "Unknown"}\n\nQUOTE TO SANITIZE:\n"${quoteInput}"\n\nUse Google Search to verify factual claims before completing analysis.`;
 
-      const res = await fetch("/api/claude", {
+      const res = await fetch("/api/gemini", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          model: "claude-sonnet-4-20250514",
-          max_tokens: 2000,
           system: systemPrompt,
-          tools,
-          messages: [{ role: "user", content: userMsg }]
+          messages: [{ role: "user", content: userMsg }],
+          max_tokens: 2000,
+          liveSearch: true,
         })
       });
 
       const data = await res.json();
-      if (data.error) { setQuoteResult({ error: data.error.message }); return; }
+      if (data.error) { setQuoteResult({ error: data.error.message || JSON.stringify(data.error) }); return; }
 
-      const text = data.content?.filter(c => c.type === "text").map(c => c.text).join("") || "";
+      const text = data.text || "";
       try {
         const clean = text.replace(/```json|```/g, "").trim();
         setQuoteResult(JSON.parse(clean));
