@@ -3,14 +3,19 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: "Method not allowed" });
   }
 
+  const secret = req.headers["x-api-secret"];
+  if (process.env.API_SECRET && secret !== process.env.API_SECRET) {
+    return res.status(401).json({ error: "Unauthorized" });
+  }
+
   try {
-    const { system, messages, max_tokens, liveSearch } = req.body;
+    const { system, messages, liveSearch } = req.body;
     const userText = messages?.[0]?.content || "";
 
     const body = {
       contents: [{ role: "user", parts: [{ text: userText }] }],
       systemInstruction: { parts: [{ text: system }] },
-      generationConfig: { maxOutputTokens: max_tokens || 1500 },
+      generationConfig: { maxOutputTokens: 2000 },
       ...(liveSearch && { tools: [{ google_search: {} }] }),
     };
 

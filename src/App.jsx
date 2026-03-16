@@ -184,11 +184,10 @@ Style: tactical brevity, structured headers, cite source IDs, flag unverified cl
 
       const res = await fetch("/api/gemini", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", "x-api-secret": import.meta.env.VITE_API_SECRET },
         body: JSON.stringify({
           system: systemPrompt,
           messages: [{ role: "user", content: aiQuery }],
-          max_tokens: 1500,
           liveSearch: liveMode,
         })
       });
@@ -246,11 +245,10 @@ OUTPUT FORMAT (valid JSON only, no markdown fences):
 
       const res = await fetch("/api/gemini", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", "x-api-secret": import.meta.env.VITE_API_SECRET },
         body: JSON.stringify({
           system: systemPrompt,
           messages: [{ role: "user", content: userMsg }],
-          max_tokens: 2000,
           liveSearch: true,
         })
       });
