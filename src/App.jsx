@@ -310,7 +310,9 @@ export default function OsintDashboard() {
     const now = new Date().toUTCString();
     const isTimeSensitive = /last hour|latest|now|current|today|right now|breaking|live|update|happened|strike|attack|news|שעה|עכשיו|עדכון|אחרון|היום|פגיעה|תקיפה|חדשות/i.test(aiQuery);
 
-    const systemPrompt = `You are a professional OSINT analyst specializing in the Middle East conflict — Iran, Lebanon, Gaza, and the Axis of Resistance network. Current date/time: ${now}.
+    const systemPrompt = `You are a professional OSINT analyst specializing in the Middle East conflict — covering Israel, Iran, Lebanon, Gaza, and the Axis of Resistance network. Current date/time: ${now}.
+
+CRITICAL: Always include the Israeli perspective and home front impact. Cover rocket/missile attacks ON Israel, IDF operations, Israeli casualties, evacuations, Home Front Command alerts, and the domestic Israeli situation. Israel is a primary subject — not just a background actor.
 
 CURATED SOURCE BANK:
 ${sourceList}
