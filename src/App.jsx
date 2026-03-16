@@ -183,14 +183,9 @@ Style: tactical brevity, structured headers, cite source IDs, flag unverified cl
         setFetchSteps(prev => [...prev, "Time-sensitive query — activating web_search...", "Fetching: IranWarLive · Reuters · ToI · ISW..."]);
       }
 
-      const res = await fetch("https://api.anthropic.com/v1/messages", {
+      const res = await fetch("/api/claude", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "x-api-key": import.meta.env.VITE_ANTHROPIC_API_KEY,
-          "anthropic-version": "2023-06-01",
-          "anthropic-dangerous-direct-browser-ipc": "true",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           model: "claude-sonnet-4-20250514",
           max_tokens: 1500,
@@ -254,14 +249,9 @@ OUTPUT FORMAT (valid JSON only, no markdown fences):
       const tools = [{ type: "web_search_20250305", name: "web_search" }];
       const userMsg = `ACTOR: ${quoteActor || "Unknown"}\n\nQUOTE TO SANITIZE:\n"${quoteInput}"\n\nUse web_search to verify factual claims before completing analysis.`;
 
-      const res = await fetch("https://api.anthropic.com/v1/messages", {
+      const res = await fetch("/api/claude", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "x-api-key": import.meta.env.VITE_ANTHROPIC_API_KEY,
-          "anthropic-version": "2023-06-01",
-          "anthropic-dangerous-direct-browser-ipc": "true",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           model: "claude-sonnet-4-20250514",
           max_tokens: 2000,
